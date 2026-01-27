@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Game & Backend Dev</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --text-main: #c9d1d9;
+            --accent: #58a6ff;
+            --border: #30363d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- Header & Profile Section --- */
+        header {
+            text-align: center;
+            padding: 4rem 1rem 3rem 1rem;
+            background: linear-gradient(180deg, #1f2428 0%, #0d1117 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 1rem; 
+            color: #fff; 
+            font-weight: 800;
+        }
+
+        /* Style cho ảnh đại diện hình tròn */
+        .profile-img {
+            width: 160px;       /* Kích thước ảnh */
+            height: 160px;
+            border-radius: 50%; /* Làm tròn ảnh */
+            object-fit: cover;  /* Giữ tỉ lệ ảnh không bị méo */
+            border: 4px solid var(--accent); /* Viền màu xanh nổi bật */
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3); /* Hiệu ứng phát sáng nhẹ */
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .tagline { font-size: 1.2rem; color: #8b949e; margin-bottom: 1.5rem; }
+        
+        .social-links a {
+            color: var(--text-main);
+            font-size: 1.8rem;
+            margin: 0 15px;
+            transition: transform 0.3s, color 0.3s;
+            display: inline-block;
+        }
+        .social-links a:hover { 
+            color: var(--accent); 
+            transform: translateY(-3px);
+        }
+
+        /* --- Container & Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 2.5rem;
+            color: #fff;
+            margin-top: 1rem;
+        }
+
+        /* --- Project Grid (Responsive) --- */
+        .project-grid {
+            display: grid;
+            /* Tự động chia cột: Trên PC là 3 cột, Tablet 2 cột, Mobile 1 cột */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .card-img {
+            height: 200px;
+            background-color: #21262d;
+            overflow: hidden;
+        }
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .card:hover .card-img img {
+            transform: scale(1.05); /* Zoom nhẹ ảnh khi di chuột vào */
+        }
+
+        .card-body { 
+            padding: 1.5rem; 
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 0.5rem; }
+        .card-desc { font-size: 0.95rem; margin-bottom: 1.2rem; color: #8b949e; flex-grow: 1; }
+        
+        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+        .tag {
+            background-color: rgba(56, 139, 253, 0.1);
+            color: #58a6ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+            background-color: #238636;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .btn:hover { background-color: #2ea043; }
+
+        /* --- Skills Section Styling --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .skill-box h3 { color: white; margin-bottom: 1rem; font-size: 1.3rem; }
+        .skill-list li {
+            list-style: none;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            color: #c9d1d9;
+        }
+        .skill-list i { color: #238636; margin-right: 10px; width: 20px; text-align: center;}
+
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #484f58;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .profile-img { width: 130px; height: 130px; }
+            .section-title { font-size: 1.5rem; text-align: center; }
+            .project-grid { grid-template-columns: 1fr; } /* Chuyển về 1 cột trên điện thoại */
+            .container { padding: 1.5rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Vũ Phạm Luân</h1>
+
+        <img src="anh.jpg" alt="Avatar" class="profile-img">
+
+        <p class="tagline">Game Developer & Backend Engineer</p>
+        
+        <div class="social-links">
+            <a href="https://github.com/luanvu2003"><i class="fab fa-github"></i></a>
+            <a href="mailto:luanvutk123@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://www.facebook.com/vuphamluan2604"><i class="fab fa-facebook"></i></a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title">🚀 Featured Projects</h2>
+        <div class="project-grid">
+            
+            <div class="card">
+                <div class="card-img">
+                    <img src="wanderedknight.jpg" alt="Wandered Knight">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Wandered Knight</h3>
+                    <p class="card-desc">
+                        
+                    </p>
+                    <div class="tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">Unity 2D</span>
+                        <span class="tag">UI Design</span>
+                    </div>
+                    <a href="https://github.com/luanvu2003/DuAn1" class="btn">View on GitHub</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=3D+Models" alt="SMD-System">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">SMD-System</h3>
+                    <p class="card-desc">
+                        Hệ thống Syllabus với tính năng AI thông minh.
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Reactjs</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">MySQL</span>
+                    </div>
+                    <a href="https://github.com/luanvu2003/core-system" class="btn">View on Github</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=Interactive+Web" alt="Dự án 2D">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Dự án 2D</h3>
+                    <p class="card-desc">
+                       
+                    </p>
+                    <div class="tags">
+                        <span class="tag">C#</span>
+                        <span class="tag">Unity 2D</span>
+                        <span class="tag">UI Design</span>
+                    </div>
+                    <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn">View on Github</a>
+                </div>
+            </div>
+
+             <div class="card">
+                <div class="card-img">
+                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=Backend+API" alt="Dự án 3D">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Dự án 3D</h3>
+                    <p class="card-desc">
+                        
+                    </p>
+                    <div class="tags">
+                        <span class="tag">Unity 3D</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">UI Design</span>
+                    </div>
+                    <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn">View on Github</a>
+                </div>
+            </div>
+
+        </div>
+
+        <br><br>
+
+        <h2 class="section-title">🛠️ Technical Skills</h2>
+        <div class="skills-container">
+            <div class="skill-box">
+                <h3><i class="fas fa-gamepad"></i> Game Development</h3>
+                <ul class="skill-list">
+                    <li><i class="fas fa-check"></i> Unity Engine (C#)</li>
+                    <li><i class="fas fa-check"></i> 3D Modeling (Maya)</li>
+                    <li><i class="fas fa-check"></i> Animation & Rigging</li>
+                    <li><i class="fas fa-check"></i> Game Logic & AI</li>
+                </ul>
+            </div>
+            
+            <div class="skill-box">
+                <h3><i class="fas fa-server"></i> Backend & Web</h3>
+                <ul class="skill-list">
+                    <li><i class="fas fa-check"></i> C# / .NET Framework</li>
+                    <li><i class="fas fa-check"></i> SQL Server / Database Design</li>
+                    <li><i class="fas fa-check"></i> Entity Framework Core</li>
+                    <li><i class="fas fa-check"></i> HTML/CSS/JS/ReactJS (Frontend)</li>
+                </ul>
+            </div>
+
+            <div class="skill-box">
+                <h3><i class="fas fa-tools"></i> Tools & Others</h3>
+                <ul class="skill-list">
+                    <li><i class="fas fa-check"></i> Git / GitHub</li>
+                    <li><i class="fas fa-check"></i> Visual Studio / VS Code</li>
+                    <li><i class="fas fa-check"></i> Photoshop / UI Design</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Designed by Vũ Phạm Luân | © 2026</p>
+    </footer>
+
+</body>
+</html>
