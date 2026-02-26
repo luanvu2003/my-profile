@@ -2,408 +2,220 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vũ Phạm Luân | Game & Backend Developer</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
-            /* Palette Cyberpunk / Future Tech */
             --bg-dark: #050505;
             --bg-panel: rgba(20, 20, 25, 0.7);
             --border-glow: rgba(0, 243, 255, 0.3);
-            
-            /* Gradient màu chủ đạo */
             --primary-gradient: linear-gradient(135deg, #00f3ff 0%, #0066ff 100%);
             --text-gradient: linear-gradient(to right, #00f3ff, #bc13fe);
-            
             --text-main: #e0e6ed;
             --text-muted: #94a3b8;
             --accent-cyan: #00f3ff;
             --accent-purple: #bc13fe;
-            
             --font-main: 'Be Vietnam Pro', sans-serif;
             --font-code: 'Fira Code', monospace;
         }
 
-        /* --- TÙY BIẾN THANH CUỘN (SCROLLBAR) --- */
-        
-        /* 1. Cho Chrome, Safari, Edge */
-        ::-webkit-scrollbar {
-            width: 8px; /* Độ rộng thanh cuộn dọc */
-            height: 8px; /* Độ cao thanh cuộn ngang */
-        }
-
-        /* Nền của thanh cuộn (Track) */
-        ::-webkit-scrollbar-track {
-            background: var(--bg-dark); 
-        }
-
-        /* Thanh kéo (Thumb) */
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 243, 255, 0.5); /* Màu xanh neon mờ */
-            border-radius: 10px; /* Bo tròn */
-            border: 2px solid var(--bg-dark); /* Tạo khoảng cách với viền */
-        }
-
-        /* Hiệu ứng khi rê chuột vào thanh kéo */
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-cyan); /* Sáng rực lên */
-            box-shadow: 0 0 15px var(--accent-cyan); /* Phát sáng */
-        }
-
-        /* 2. Cho Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent-cyan) var(--bg-dark);
-        }
-
-
-        /* --- GLOBAL STYLES --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        /* --- RESET & GLOBAL --- */
+        html { width: 100%; overflow-x: hidden; box-sizing: border-box; }
+        *, *::before, *::after { box-sizing: inherit; }
         
         body {
+            margin: 0; padding: 0; width: 100%; overflow-x: hidden;
             font-family: var(--font-main);
             background-color: var(--bg-dark);
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            color: var(--text-main);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px; animation: bgScroll 25s linear infinite;
+            color: var(--text-main); line-height: 1.6; min-height: 100vh; position: relative;
         }
 
-        /* --- Animations --- */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+
+        @keyframes bgScroll { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan); }
+            50% { text-shadow: 2px -2px 0px var(--accent-purple), -2px 2px 0px var(--accent-cyan); }
+            100% { text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan); }
         }
 
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        /* --- Scroll Buttons --- */
         .scroll-btn {
-            display: none;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            border: none;
-            background: var(--primary-gradient);
-            color: #000;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-            transition: all 0.3s;
-            outline: none;
+            display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            border: none; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan); width: 45px; height: 45px; border-radius: 50%;
+            cursor: pointer; font-size: 1.2rem; backdrop-filter: blur(5px); transition: all 0.3s;
         }
-        .scroll-btn:hover { 
-            transform: scale(1.1) translateY(-5px); 
-            box-shadow: 0 0 40px var(--accent-cyan); 
-            background: #fff;
-        }
+        .scroll-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 20px var(--accent-cyan); }
 
-        /* --- Header --- */
+        /* --- HEADER --- */
         header {
-            text-align: center;
-            padding: 6rem 1rem 4rem;
-            position: relative;
+            width: 100%; text-align: center; padding: 6rem 1rem 4rem; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        
         header::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: 50%;
-            transform: translateX(-50%);
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(0,243,255,0.15) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            pointer-events: none;
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 60vw; height: 60vw; max-width: 500px; max-height: 500px; 
+            background: radial-gradient(circle, rgba(0,243,255,0.12) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1; pointer-events: none;
         }
-
-        .profile-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 2rem;
-            animation: float 6s ease-in-out infinite;
-        }
-
+        .profile-wrapper { position: relative; display: block; margin-bottom: 1.5rem; animation: float 6s ease-in-out infinite; }
         .profile-img {
-            width: 180px; height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid rgba(255,255,255,0.1);
-            box-shadow: 0 0 0 5px rgba(0, 243, 255, 0.1), 0 0 40px rgba(0, 243, 255, 0.3);
+            width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 0 0 4px rgba(0, 243, 255, 0.1), 0 0 30px rgba(0, 243, 255, 0.2);
         }
-
         h1 {
-            font-family: var(--font-main); 
-            font-size: 3.5rem;
-            font-weight: 900; 
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
-            text-transform: uppercase;
-            background: var(--text-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.3));
+            font-family: var(--font-main); font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; text-transform: uppercase;
+            background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            position: relative; display: inline-block; line-height: 1.2; max-width: 100%;
         }
-
-        .tagline-wrapper {
-            display: inline-block;
-            margin-bottom: 2.5rem;
-        }
-
+        h1:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; -webkit-text-fill-color: var(--accent-cyan); }
+        .tagline-wrapper { display: inline-block; margin-bottom: 2rem; max-width: 100%; padding: 0 10px; overflow: hidden; }
         .tagline {
-            font-family: var(--font-code);
-            font-size: 1.1rem;
-            color: var(--accent-cyan);
-            border-right: 2px solid var(--accent-purple);
-            white-space: nowrap;
-            overflow: hidden;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
-            max-width: 100%;
+            font-family: var(--font-code); font-size: 1.1rem; color: var(--accent-cyan); white-space: nowrap; overflow: hidden;
+            border-right: 2px solid var(--accent-purple); animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; max-width: 100%;
         }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-purple); } }
+        .social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .social-links a { color: var(--text-muted); font-size: 1.8rem; transition: all 0.3s; }
+        .social-links a:hover { color: var(--accent-cyan); transform: translateY(-5px); text-shadow: 0 0 15px var(--accent-cyan); }
 
-        .social-links a {
-            color: var(--text-muted);
-            font-size: 2rem;
-            margin: 0 15px;
-            transition: all 0.3s;
-        }
-        .social-links a:hover {
-            color: var(--accent-cyan);
-            transform: translateY(-5px);
-            text-shadow: 0 0 20px var(--accent-cyan);
-        }
-
-        /* --- Container & Titles --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease-out forwards;
-        }
-
+        /* --- CONTAINER --- */
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         .section-title {
-            font-family: var(--font-main);
-            font-weight: 800;
-            font-size: 2.2rem;
-            color: #fff;
-            margin: 5rem 0 3rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            padding-left: 20px;
-            text-transform: uppercase;
+            font-weight: 800; font-size: 2rem; color: #fff; margin: 5rem 0 2.5rem;
+            display: flex; align-items: center; gap: 15px; position: relative; padding-left: 15px; text-transform: uppercase;
         }
-        
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 6px;
-            background: var(--text-gradient);
-            border-radius: 4px;
-            box-shadow: 0 0 15px var(--accent-cyan);
-        }
-        
-        .section-title i {
-            background: var(--text-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        .section-title::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--text-gradient); border-radius: 4px; box-shadow: 0 0 10px var(--accent-cyan); }
+        .section-title i { background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* --- Project Cards --- */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
+        /* --- CARDS & GRID --- */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; width: 100%; }
         .card {
-            background: rgba(20, 20, 25, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            overflow: hidden;
-            backdrop-filter: blur(12px);
-            transition: all 0.4s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
+            background: var(--bg-panel); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden;
+            backdrop-filter: blur(10px); transition: all 0.3s ease; display: flex; flex-direction: column; width: 100%;
         }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-cyan);
-            box-shadow: 0 10px 40px -10px rgba(0, 243, 255, 0.15);
-        }
-        
-        .card:hover::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-        }
-
-        .card-img { height: 220px; overflow: hidden; position: relative; }
-        .card-img img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.6s ease;
-        }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent-cyan); box-shadow: 0 8px 30px rgba(0, 243, 255, 0.1); }
+        .card-img { height: 200px; overflow: hidden; width: 100%; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .card:hover .card-img img { transform: scale(1.1); }
-
-        .card-body { padding: 1.8rem; display: flex; flex-direction: column; flex-grow: 1; }
-
-        .card-title {
-            font-family: var(--font-main);
-            font-weight: 700;
-            font-size: 1.4rem;
-            color: #fff;
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .card-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
-
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+        .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; }
+        .card-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.2rem; flex-grow: 1; }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2rem; }
         .tag {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent-cyan);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-family: var(--font-code);
-            border: 1px solid rgba(0, 243, 255, 0.2);
-            transition: 0.3s;
+            background: rgba(0, 243, 255, 0.05); color: var(--accent-cyan); padding: 4px 10px; border-radius: 4px;
+            font-size: 0.75rem; font-family: var(--font-code); border: 1px solid rgba(0, 243, 255, 0.15);
         }
-        .card:hover .tag { background: rgba(0, 243, 255, 0.1); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
-
-        /* Buttons */
         .btn {
-            width: 100%; padding: 12px; border-radius: 6px;
-            font-family: var(--font-main);
-            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-            font-size: 0.85rem; cursor: pointer; transition: 0.3s;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            text-decoration: none; border: none; margin-top: 10px;
+            width: 100%; box-sizing: border-box; padding: 12px 15px; margin-top: 10px; font-family: var(--font-main);
+            font-weight: 700; text-transform: uppercase; font-size: 0.85rem; line-height: 1; display: flex;
+            justify-content: center; align-items: center; gap: 8px; text-decoration: none; border-radius: 6px;
+            cursor: pointer; transition: 0.3s; outline: none; -webkit-appearance: none;
         }
+        .btn-detail { background: transparent; border: 2px solid var(--accent-cyan); color: var(--accent-cyan); }
+        .btn-detail:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 15px var(--accent-cyan); }
+        .btn-github { background: rgba(255, 255, 255, 0.05); border: 2px solid transparent; color: var(--text-muted); }
+        .btn-github:hover { background: #fff; color: #000; border-color: #fff; }
 
-        .btn-detail {
-            background: transparent;
-            border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan);
-            position: relative; overflow: hidden;
-            z-index: 1;
-        }
-        .btn-detail::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%;
-            background: var(--accent-cyan); z-index: -1; transition: 0.3s;
-        }
-        .btn-detail:hover { color: #000; }
-        .btn-detail:hover::before { width: 100%; }
-
-        .btn-github {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-        }
-        .btn-github:hover { background: #fff; color: #000; }
-
-        /* --- Skills Section --- */
-        .skills-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
-        }
+        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; }
         .skill-box {
-            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
-            padding: 2rem; border-radius: 12px; transition: 0.3s;
+            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; transition: 0.3s; width: 100%;
         }
-        .skill-box:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
-            transform: translateY(-5px);
-        }
-        .skill-box h3 {
-            font-family: var(--font-main); font-weight: 700; color: #fff; margin-bottom: 1.5rem;
-            display: flex; align-items: center; gap: 10px; text-transform: uppercase;
-        }
-        .skill-list li {
-            list-style: none; margin-bottom: 0.8rem; display: flex; align-items: center;
-            color: var(--text-muted); font-family: var(--font-code); font-size: 0.9rem;
-        }
-        .skill-list i { color: var(--accent-cyan); margin-right: 12px; }
+        .skill-box:hover { border-color: var(--accent-purple); box-shadow: 0 0 20px rgba(188, 19, 254, 0.1); }
+        .skill-box h3 { font-weight: 700; color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .skill-list li { list-style: none; margin-bottom: 0.6rem; display: flex; align-items: center; color: var(--text-muted); font-family: var(--font-code); font-size: 0.85rem; }
+        .skill-list i { color: var(--accent-cyan); margin-right: 10px; }
+        footer { text-align: center; padding: 4rem 1rem; margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #666; width: 100%; }
 
-        /* --- Detail Page Overlay --- */
+        /* --- DETAIL PAGE (MOBILE DEFAULT) --- */
         #detail-page {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.98); z-index: 1000; 
-            overflow-y: auto; /* Kích hoạt thanh cuộn */
-            padding: 2rem;
+            background: rgba(5, 5, 5, 0.98); z-index: 1000; overflow-y: auto; 
+            padding: 1.5rem 1rem; /* Padding nhỏ cho mobile */
         }
-        #detail-page.active { display: block; animation: fadeInUp 0.4s ease; }
-        .back-btn {
-            background: none; border: none; color: var(--accent-cyan); font-family: var(--font-main); font-weight: 700;
-            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-        .back-btn:hover { text-shadow: 0 0 10px var(--accent-cyan); }
+        #detail-page.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .detail-title { font-size: 1.8rem; font-weight: 900; color: var(--accent-cyan); margin-bottom: 1rem; line-height: 1.2; word-wrap: break-word; }
+        .detail-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-glow); margin-bottom: 1.5rem; }
+        .back-btn { background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
+        .back-btn:hover { color: var(--accent-cyan); }
+        .detail-content { color: var(--text-main); font-size: 1rem; line-height: 1.7; }
+        .detail-content h3 { color: var(--accent-purple); margin-top: 2rem; margin-bottom: 0.8rem; }
 
-        .detail-title {
-            font-family: var(--font-main); font-size: 2.5rem; font-weight: 800; text-transform: uppercase;
-            background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-        }
-        .detail-img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border-glow); }
-        .detail-content h3 { color: var(--accent-cyan); font-family: var(--font-main); font-weight: 700; margin-top: 2rem; text-transform: uppercase; }
-        .detail-content p, .detail-content li { font-family: var(--font-main); color: var(--text-main); }
-
-        /* --- RESPONSIVE SETTINGS --- */
+        /* =========================================
+           RESPONSIVE & PC FIXES
+           ========================================= */
+        
+        /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            header { padding: 4rem 1rem 2rem; }
-            h1 { font-size: 2.2rem; }
-            .tagline { font-size: 0.9rem; white-space: normal; animation: none; border: none; text-align: center; }
-            .container { padding: 1rem; }
-            .project-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .skills-container { grid-template-columns: 1fr; gap: 1.5rem; }
-            .section-title { font-size: 1.6rem; margin: 3rem 0 1.5rem; }
-            .profile-img { width: 140px; height: 140px; }
-            .scroll-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
-            .detail-img { height: 200px; }
-            .detail-title { font-size: 1.8rem; }
+            header { padding: 3rem 1rem 2rem; width: 100%; box-sizing: border-box; }
+            .profile-img { width: 130px; height: 130px; }
+            h1 { font-size: 1.8rem; padding: 0 10px; }
+            .tagline { white-space: normal; animation: none; border: none; text-align: center; font-size: 0.9rem; }
+            .container { padding: 0 1.2rem; }
+            .project-grid, .skills-container { grid-template-columns: 100%; gap: 1.5rem; }
+            .scroll-btn { width: 40px; height: 40px; right: 15px; bottom: 15px; }
         }
 
+        /* LANDSCAPE MOBILE */
         @media (max-height: 600px) and (orientation: landscape) {
-            header { padding: 2rem 1rem 1rem; }
-            .profile-wrapper { margin-bottom: 1rem; }
-            .profile-img { width: 100px; height: 100px; }
-            h1 { font-size: 1.8rem; margin-bottom: 0.2rem; }
-            .tagline-wrapper { margin-bottom: 1rem; }
-            .section-title { margin: 2rem 0 1rem; font-size: 1.4rem; }
-            .project-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .skills-container { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .card-img { height: 140px; }
-            .container { padding-top: 0; }
+            header { padding: 1.5rem 1rem; }
+            .profile-img { width: 90px; height: 90px; }
+            h1 { font-size: 1.5rem; margin-bottom: 0; }
+            .project-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* --- PC SPECIFIC FIX FOR DETAIL MODAL (FIX LỖI HẸP) --- */
+        @media (min-width: 1024px) {
+            #detail-page {
+                padding: 0; /* Xóa padding bao quanh của modal trên PC để container tự xử lý */
+            }
+            
+            #detail-page .container {
+                max-width: 1000px; /* Độ rộng tối ưu cho PC (không quá rộng để đọc, nhưng đủ to) */
+                margin: 4rem auto; /* Căn giữa và cách top */
+                padding: 0;
+            }
+
+            .detail-title {
+                font-size: 3rem; /* Tiêu đề to hơn trên PC */
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .detail-img {
+                height: 500px; /* Ảnh cao, to rõ trên màn hình lớn */
+                max-height: none; /* Bỏ giới hạn chiều cao của mobile */
+                margin-bottom: 3rem;
+            }
+
+            .detail-content {
+                font-size: 1.15rem; /* Chữ to hơn chút cho dễ đọc */
+                padding: 0 4rem; /* Padding nội dung văn bản để không sát mép ảnh */
+            }
+            
+            .back-btn {
+                font-size: 1.2rem;
+                margin-left: 2rem; /* Căn nút back thẳng hàng với nội dung */
+                margin-top: 2rem;
+            }
         }
     </style>
 </head>
@@ -412,7 +224,6 @@
     <button onclick="topFunction()" id="scrollTopBtn" class="scroll-btn" title="Lên đầu trang">
         <i class="fas fa-arrow-up"></i>
     </button>
-
     <button onclick="topDetailFunction()" id="detailScrollBtn" class="scroll-btn" title="Lên đầu chi tiết">
         <i class="fas fa-arrow-up"></i>
     </button>
@@ -424,7 +235,7 @@
             </div>
             <h1>Vũ Phạm Luân</h1>
             <div class="tagline-wrapper">
-                <p class="tagline">Game Developer & Backend Engineer</p>
+                <p class="tagline"> Game Developer & Backend Engineer </p>
             </div>
             
             <div class="social-links">
@@ -435,74 +246,60 @@
         </header>
 
         <div class="container">
-            
-            <h2 class="section-title"><i class="fas fa-meteor"></i> Featured Projects</h2>
+            <h2 class="section-title reveal"><i class="fas fa-meteor"></i> Featured Projects</h2>
             <div class="project-grid">
-                
-                <div class="card">
+                <div class="card reveal">
                     <div class="card-img">
                         <img src="wanderedknight.jpg" alt="Wandered Knight" onerror="this.src='https://via.placeholder.com/500x300/101015/58a6ff?text=Wandered+Knight'">
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Wandered Knight</h3>
-                        <p class="card-desc">Game 2D Action-Platformer. Hành trình của hiệp sĩ vô danh tìm lại ký ức trong thế giới tàn khốc.</p>
+                        <p class="card-desc">Game 2D Action-Platformer. Hành trình của hiệp sĩ vô danh tìm lại ký ức.</p>
                         <div class="tags">
                             <span class="tag">Unity 2D</span>
                             <span class="tag">C#</span>
                             <span class="tag">Combat System</span>
                         </div>
-                        <button class="btn btn-detail" onclick="openDetail('wandered-knight')">
-                            Xem Chi Tiết
-                        </button>
-                        <a href="https://github.com/luanvu2003/DuAn1" class="btn btn-github">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
+                        <button class="btn btn-detail" onclick="openDetail('wandered-knight')">Xem Chi Tiết</button>
+                        <a href="https://github.com/luanvu2003/DuAn1" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card reveal">
                     <div class="card-img">
                         <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=SMD-System" alt="SMD-System">
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">SMD-System</h3>
-                        <p class="card-desc">Hệ thống quản lý Syllabus (Đề cương) tích hợp AI để tối ưu hóa chương trình đào tạo.</p>
+                        <p class="card-desc">Hệ thống quản lý Syllabus (Đề cương) tích hợp AI tối ưu hóa đào tạo.</p>
                         <div class="tags">
                             <span class="tag">ReactJS</span>
                             <span class="tag">Spring Boot</span>
                             <span class="tag">MySQL</span>
                         </div>
-                        <button class="btn btn-detail" onclick="openDetail('smd-system')">
-                            Xem Chi Tiết
-                        </button>
-                        <a href="https://github.com/luanvu2003/core-system" class="btn btn-github">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
+                        <button class="btn btn-detail" onclick="openDetail('smd-system')">Xem Chi Tiết</button>
+                        <a href="https://github.com/luanvu2003/core-system" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card reveal">
                     <div class="card-img">
                         <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=Two+Worlds" alt="Two Worlds">
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Two Worlds</h3>
-                        <p class="card-desc">Puzzle Game độc đáo với cơ chế chuyển đổi không gian song song để giải đố.</p>
+                        <p class="card-desc">Puzzle Game độc đáo với cơ chế chuyển đổi không gian song song.</p>
                         <div class="tags">
                             <span class="tag">Unity 2D</span>
-                            <span class="tag">Puzzle Logic</span>
+                            <span class="tag">Puzzle</span>
                             <span class="tag">Pixel Art</span>
                         </div>
-                        <button class="btn btn-detail" onclick="openDetail('two-worlds')">
-                            Xem Chi Tiết
-                        </button>
-                        <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn btn-github">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
+                        <button class="btn btn-detail" onclick="openDetail('two-worlds')">Xem Chi Tiết</button>
+                        <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
 
-                 <div class="card">
+                 <div class="card reveal">
                     <div class="card-img">
                         <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=3D+World" alt="3D Project">
                     </div>
@@ -514,23 +311,18 @@
                             <span class="tag">Optimization</span>
                             <span class="tag">Physics</span>
                         </div>
-                        <button class="btn btn-detail" onclick="openDetail('3d-project')">
-                            Xem Chi Tiết
-                        </button>
-                        <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn btn-github">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
+                        <button class="btn btn-detail" onclick="openDetail('3d-project')">Xem Chi Tiết</button>
+                        <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
-
             </div>
 
-            <h2 class="section-title"><i class="fas fa-code"></i> Technical Arsenal</h2>
-            <div class="skills-container">
+            <h2 class="section-title reveal"><i class="fas fa-code"></i> Technical Arsenal</h2>
+            <div class="skills-container reveal">
                 <div class="skill-box">
                     <h3><i class="fas fa-gamepad"></i> Game Dev</h3>
                     <ul class="skill-list">
-                        <li><i class="fas fa-caret-right"></i> Unity Engine (Expert)</li>
+                        <li><i class="fas fa-caret-right"></i> Unity Engine</li>
                         <li><i class="fas fa-caret-right"></i> C# Scripting & OOP</li>
                         <li><i class="fas fa-caret-right"></i> Animation & Rigging</li>
                         <li><i class="fas fa-caret-right"></i> Shader Graph / VFX</li>
@@ -556,7 +348,6 @@
                     </ul>
                 </div>
             </div>
-
         </div>
 
         <footer>
@@ -565,118 +356,75 @@
     </div>
 
     <div id="detail-page">
-        <div class="container" style="padding-top: 1rem;">
+        <div class="container">
             <button class="back-btn" onclick="closeDetail()">
                 <i class="fas fa-arrow-left"></i> QUAY LẠI
             </button>
-            
             <div id="detail-content-placeholder"></div>
         </div>
     </div>
 
     <script>
-        let mainScrollBtn = document.getElementById("scrollTopBtn");
-        window.onscroll = function() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                mainScrollBtn.style.display = "block";
-            } else {
-                mainScrollBtn.style.display = "none";
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
             }
-        };
-        function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
         }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        let mainScrollBtn = document.getElementById("scrollTopBtn");
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 200) { mainScrollBtn.style.display = "block"; } 
+            else { mainScrollBtn.style.display = "none"; }
+        });
+        function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         let detailPage = document.getElementById("detail-page");
         let detailScrollBtn = document.getElementById("detailScrollBtn");
-
         detailPage.onscroll = function() {
-            if (detailPage.scrollTop > 200) {
-                detailScrollBtn.style.display = "block";
-            } else {
-                detailScrollBtn.style.display = "none";
-            }
+            if (detailPage.scrollTop > 200) { detailScrollBtn.style.display = "block"; } 
+            else { detailScrollBtn.style.display = "none"; }
         };
-
-        function topDetailFunction() {
-            detailPage.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+        function topDetailFunction() { detailPage.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         const projectData = {
             'wandered-knight': {
                 title: 'WANDERE KNIGHT',
                 img: 'wanderedknight.jpg',
-                description: `
-                    <h3>Cốt truyện & Gameplay</h3>
-                    <p>Trong vai một hiệp sĩ mất trí nhớ, người chơi phải chiến đấu qua 5 vùng đất khác nhau, từ Rừng Thiêng đến Ngục Tối để tìm lại bản ngã. Game sử dụng hệ thống State Machine để quản lý trạng thái nhân vật mượt mà.</p>
-                    <h3>Công nghệ nổi bật</h3>
-                    <ul>
-                        <li>Hệ thống AI kẻ địch sử dụng A* Pathfinding.</li>
-                        <li>Quản lý dữ liệu bằng ScriptableObjects.</li>
-                        <li>Hiệu ứng Particle System hoành tráng.</li>
-                    </ul>
-                `
+                description: `<h3>Cốt truyện & Gameplay</h3><p>Trong vai một hiệp sĩ mất trí nhớ, người chơi phải chiến đấu qua 5 vùng đất khác nhau. Game sử dụng hệ thống State Machine để quản lý trạng thái nhân vật mượt mà.</p><h3>Công nghệ nổi bật</h3><ul><li>Hệ thống AI kẻ địch sử dụng A* Pathfinding.</li><li>Quản lý dữ liệu bằng ScriptableObjects.</li><li>Hiệu ứng Particle System hoành tráng.</li></ul>`
             },
             'smd-system': {
                 title: 'SMD SYSTEM',
                 img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=SMD+Dashboard',
-                description: `
-                    <h3>Giải pháp Giáo dục</h3>
-                    <p>Hệ thống giúp số hóa toàn bộ quy trình soạn thảo đề cương môn học tại Đại học FPT. Giảm thiểu 80% sai sót thủ công nhờ bộ kiểm tra quy tắc tự động (Validation Rules).</p>
-                    <h3>Kiến trúc hệ thống</h3>
-                    <ul>
-                        <li>Frontend: ReactJS với Redux Toolkit.</li>
-                        <li>Backend: Java Spring Boot (Microservices).</li>
-                        <li>Database: MySQL & Redis Caching.</li>
-                    </ul>
-                `
+                description: `<h3>Giải pháp Giáo dục</h3><p>Hệ thống giúp số hóa toàn bộ quy trình soạn thảo đề cương môn học tại Đại học FPT. Giảm thiểu 80% sai sót thủ công nhờ bộ kiểm tra quy tắc tự động.</p><h3>Kiến trúc hệ thống</h3><ul><li>Frontend: ReactJS với Redux Toolkit.</li><li>Backend: Java Spring Boot (Microservices).</li><li>Database: MySQL & Redis Caching.</li></ul>`
             },
             'two-worlds': {
                 title: 'TWO WORLDS',
                 img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=Two+Worlds+Gameplay',
-                description: `
-                    <h3>Cơ chế độc đáo</h3>
-                    <p>Nhân vật chính có khả năng tách linh hồn khỏi thể xác. Thế giới thực chứa vật cản vật lý, thế giới linh hồn chứa manh mối ẩn. Người chơi phải phối hợp cả hai để mở khóa cửa thoát hiểm.</p>
-                    <h3>Thách thức kỹ thuật</h3>
-                    <ul>
-                        <li>Xử lý 2 scene chạy song song và đồng bộ vị trí.</li>
-                        <li>Tối ưu hóa Pixel Art Assets.</li>
-                    </ul>
-                `
+                description: `<h3>Cơ chế độc đáo</h3><p>Nhân vật chính có khả năng tách linh hồn khỏi thể xác. Thế giới thực chứa vật cản vật lý, thế giới linh hồn chứa manh mối ẩn.</p><h3>Thách thức kỹ thuật</h3><ul><li>Xử lý 2 scene chạy song song và đồng bộ vị trí.</li><li>Tối ưu hóa Pixel Art Assets.</li></ul>`
             },
             '3d-project': {
                 title: '3D ADVANCED PROJECT',
                 img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=3D+Open+World',
-                description: `
-                    <h3>Thế giới mở</h3>
-                    <p>Dự án thể nghiệm các kỹ thuật đồ họa cao cấp trong Unity. Bao gồm chu kỳ ngày đêm, hệ thống thời tiết thời gian thực và tương tác vật lý phức tạp.</p>
-                `
+                description: `<h3>Thế giới mở</h3><p>Dự án thể nghiệm các kỹ thuật đồ họa cao cấp trong Unity. Bao gồm chu kỳ ngày đêm, hệ thống thời tiết thời gian thực và tương tác vật lý phức tạp.</p>`
             }
         };
 
         function openDetail(projectId) {
             const data = projectData[projectId];
             if (!data) return;
-
             const contentDiv = document.getElementById('detail-content-placeholder');
-            contentDiv.innerHTML = `
-                <h1 class="detail-title">${data.title}</h1>
-                <img src="${data.img}" alt="${data.title}" class="detail-img" onerror="this.src='https://via.placeholder.com/800x400/101015/58a6ff?text=No+Image'">
-                <div class="detail-content">
-                    ${data.description}
-                </div>
-            `;
-
+            contentDiv.innerHTML = `<h1 class="detail-title">${data.title}</h1><img src="${data.img}" alt="${data.title}" class="detail-img" onerror="this.src='https://via.placeholder.com/800x400/101015/58a6ff?text=No+Image'"><div class="detail-content">${data.description}</div>`;
             document.getElementById('home-page').style.display = 'none';
             document.getElementById('detail-page').classList.add('active');
-            
             mainScrollBtn.style.display = "none";
-            detailScrollBtn.style.display = "none";
-            
             document.getElementById('detail-page').scrollTop = 0;
         }
 
@@ -684,7 +432,6 @@
             document.getElementById('detail-page').classList.remove('active');
             document.getElementById('home-page').style.display = 'block';
             window.scrollTo(0, 0);
-            
             detailScrollBtn.style.display = "none";
         }
     </script>
