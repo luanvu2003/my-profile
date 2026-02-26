@@ -3,325 +3,648 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Game & Backend Dev</title>
+    <title>Vũ Phạm Luân | Game & Backend Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --text-main: #c9d1d9;
-            --accent: #58a6ff;
-            --border: #30363d;
+            /* Palette Cyberpunk / Future Tech */
+            --bg-dark: #050505;
+            --bg-panel: rgba(20, 20, 25, 0.7);
+            --border-glow: rgba(0, 243, 255, 0.3);
+            
+            /* Gradient màu chủ đạo */
+            --primary-gradient: linear-gradient(135deg, #00f3ff 0%, #0066ff 100%);
+            --text-gradient: linear-gradient(to right, #00f3ff, #bc13fe);
+            
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --accent-cyan: #00f3ff;
+            --accent-purple: #bc13fe;
+            
+            --font-main: 'Be Vietnam Pro', sans-serif;
+            --font-code: 'Fira Code', monospace;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            /* Tạo background lưới mờ ảo */
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             color: var(--text-main);
             line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- Header & Profile Section --- */
+        /* --- Animations --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* --- Scroll Buttons (Chung style) --- */
+        .scroll-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            border: none;
+            background: var(--primary-gradient);
+            color: #000;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            transition: all 0.3s;
+            outline: none;
+        }
+        .scroll-btn:hover { 
+            transform: scale(1.1) translateY(-5px); 
+            box-shadow: 0 0 40px var(--accent-cyan); 
+            background: #fff;
+        }
+
+        /* --- Header --- */
         header {
             text-align: center;
-            padding: 4rem 1rem 3rem 1rem;
-            background: linear-gradient(180deg, #1f2428 0%, #0d1117 100%);
-            border-bottom: 1px solid var(--border);
+            padding: 6rem 1rem 4rem;
+            position: relative;
         }
         
-        h1 { 
-            font-size: 2.5rem; 
-            margin-bottom: 1rem; 
-            color: #fff; 
-            font-weight: 800;
+        /* Hiệu ứng đốm sáng background */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0,243,255,0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* Style cho ảnh đại diện hình tròn */
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
         .profile-img {
-            width: 160px;       /* Kích thước ảnh */
-            height: 160px;
-            border-radius: 50%; /* Làm tròn ảnh */
-            object-fit: cover;  /* Giữ tỉ lệ ảnh không bị méo */
-            border: 4px solid var(--accent); /* Viền màu xanh nổi bật */
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3); /* Hiệu ứng phát sáng nhẹ */
-            margin-bottom: 1.5rem;
-            display: inline-block;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 5px rgba(0, 243, 255, 0.1), 0 0 40px rgba(0, 243, 255, 0.3);
         }
 
-        .tagline { font-size: 1.2rem; color: #8b949e; margin-bottom: 1.5rem; }
-        
-        .social-links a {
-            color: var(--text-main);
-            font-size: 1.8rem;
-            margin: 0 15px;
-            transition: transform 0.3s, color 0.3s;
-            display: inline-block;
-        }
-        .social-links a:hover { 
-            color: var(--accent); 
-            transform: translateY(-3px);
+        h1 {
+            font-family: var(--font-main); /* Sử dụng Be Vietnam Pro để không lỗi font */
+            font-size: 3.5rem;
+            font-weight: 900; /* Siêu đậm */
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            
+            /* Gradient Text Effect */
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.3));
         }
 
-        /* --- Container & Layout --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.5rem;
+        .tagline-wrapper {
+            display: inline-block;
             margin-bottom: 2.5rem;
-            color: #fff;
-            margin-top: 1rem;
         }
 
-        /* --- Project Grid (Responsive) --- */
+        .tagline {
+            font-family: var(--font-code);
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            border-right: 2px solid var(--accent-purple);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            max-width: 100%;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 2rem;
+            margin: 0 15px;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-5px);
+            text-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        /* --- Container & Titles --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .section-title {
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: #fff;
+            margin: 5rem 0 3rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            padding-left: 20px;
+            text-transform: uppercase;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 6px;
+            background: var(--text-gradient);
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+        
+        .section-title i {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- Project Cards --- */
         .project-grid {
             display: grid;
-            /* Tự động chia cột: Trên PC là 3 cột, Tablet 2 cột, Mobile 1 cột */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
         }
 
         .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            background: rgba(20, 20, 25, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            position: relative;
             display: flex;
             flex-direction: column;
         }
-        
+
         .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 40px -10px rgba(0, 243, 255, 0.15);
         }
         
-        .card-img {
-            height: 200px;
-            background-color: #21262d;
-            overflow: hidden;
+        .card:hover::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
         }
+
+        .card-img { height: 220px; overflow: hidden; position: relative; }
         .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
         }
-        .card:hover .card-img img {
-            transform: scale(1.05); /* Zoom nhẹ ảnh khi di chuột vào */
-        }
+        .card:hover .card-img img { transform: scale(1.1); }
 
-        .card-body { 
-            padding: 1.5rem; 
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card-title { font-size: 1.4rem; color: var(--accent); margin-bottom: 0.5rem; }
-        .card-desc { font-size: 0.95rem; margin-bottom: 1.2rem; color: #8b949e; flex-grow: 1; }
-        
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .tag {
-            background-color: rgba(56, 139, 253, 0.1);
-            color: #58a6ff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid rgba(88, 166, 255, 0.2);
-        }
+        .card-body { padding: 1.8rem; display: flex; flex-direction: column; flex-grow: 1; }
 
-        .btn {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 10px 0;
-            background-color: #238636;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-        .btn:hover { background-color: #2ea043; }
-
-        /* --- Skills Section Styling --- */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .skill-box h3 { color: white; margin-bottom: 1rem; font-size: 1.3rem; }
-        .skill-list li {
-            list-style: none;
+        .card-title {
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #fff;
             margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            color: #c9d1d9;
-        }
-        .skill-list i { color: #238636; margin-right: 10px; width: 20px; text-align: center;}
-
-        footer {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #484f58;
-            font-size: 0.9rem;
-            margin-top: 4rem;
-            border-top: 1px solid var(--border);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
-        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        .card-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; flex-grow: 1; }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+        .tag {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent-cyan);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            transition: 0.3s;
+        }
+        .card:hover .tag { background: rgba(0, 243, 255, 0.1); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+
+        /* Buttons */
+        .btn {
+            width: 100%; padding: 12px; border-radius: 6px;
+            font-family: var(--font-main);
+            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.85rem; cursor: pointer; transition: 0.3s;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            text-decoration: none; border: none; margin-top: 10px;
+        }
+
+        .btn-detail {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            position: relative; overflow: hidden;
+            z-index: 1;
+        }
+        .btn-detail::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--accent-cyan); z-index: -1; transition: 0.3s;
+        }
+        .btn-detail:hover { color: #000; }
+        .btn-detail:hover::before { width: 100%; }
+
+        .btn-github {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+        .btn-github:hover { background: #fff; color: #000; }
+
+        /* --- Skills Section --- */
+        .skills-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
+        }
+        .skill-box {
+            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
+            padding: 2rem; border-radius: 12px; transition: 0.3s;
+        }
+        .skill-box:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.15);
+            transform: translateY(-5px);
+        }
+        .skill-box h3 {
+            font-family: var(--font-main); font-weight: 700; color: #fff; margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 10px; text-transform: uppercase;
+        }
+        .skill-list li {
+            list-style: none; margin-bottom: 0.8rem; display: flex; align-items: center;
+            color: var(--text-muted); font-family: var(--font-code); font-size: 0.9rem;
+        }
+        .skill-list i { color: var(--accent-cyan); margin-right: 12px; }
+
+        /* --- Detail Page Overlay --- */
+        #detail-page {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.98); z-index: 1000; overflow-y: auto; padding: 2rem;
+        }
+        #detail-page.active { display: block; animation: fadeInUp 0.4s ease; }
+        .back-btn {
+            background: none; border: none; color: var(--accent-cyan); font-family: var(--font-main); font-weight: 700;
+            font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+        .back-btn:hover { text-shadow: 0 0 10px var(--accent-cyan); }
+
+        .detail-title {
+            font-family: var(--font-main); font-size: 2.5rem; font-weight: 800; text-transform: uppercase;
+            background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .detail-img { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border-glow); }
+        .detail-content h3 { color: var(--accent-cyan); font-family: var(--font-main); font-weight: 700; margin-top: 2rem; text-transform: uppercase; }
+        .detail-content p, .detail-content li { font-family: var(--font-main); color: var(--text-main); }
+
+        /* Mobile */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .profile-img { width: 130px; height: 130px; }
-            .section-title { font-size: 1.5rem; text-align: center; }
-            .project-grid { grid-template-columns: 1fr; } /* Chuyển về 1 cột trên điện thoại */
-            .container { padding: 1.5rem 1rem; }
+            h1 { font-size: 2.2rem; }
+            .tagline { font-size: 0.9rem; white-space: normal; animation: none; border: none; }
+            .container { padding: 1rem; }
+            .detail-img { height: 250px; }
+            .scroll-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Vũ Phạm Luân</h1>
+    <button onclick="topFunction()" id="scrollTopBtn" class="scroll-btn" title="Lên đầu trang">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-        <img src="anh.jpg" alt="Avatar" class="profile-img">
+    <button onclick="topDetailFunction()" id="detailScrollBtn" class="scroll-btn" title="Lên đầu chi tiết">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
-        <p class="tagline">Game Developer & Backend Engineer</p>
-        
-        <div class="social-links">
-            <a href="https://github.com/luanvu2003"><i class="fab fa-github"></i></a>
-            <a href="mailto:luanvutk123@gmail.com"><i class="fas fa-envelope"></i></a>
-            <a href="https://www.facebook.com/vuphamluan2604"><i class="fab fa-facebook"></i></a>
-        </div>
-    </header>
-
-    <div class="container">
-        
-        <h2 class="section-title">🚀 Featured Projects</h2>
-        <div class="project-grid">
-            
-            <div class="card">
-                <div class="card-img">
-                    <img src="wanderedknight.jpg" alt="Wandered Knight">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Wandered Knight</h3>
-                    <p class="card-desc">
-                        
-                    </p>
-                    <div class="tags">
-                        <span class="tag">C#</span>
-                        <span class="tag">Unity 2D</span>
-                        <span class="tag">UI Design</span>
-                    </div>
-                    <a href="https://github.com/luanvu2003/DuAn1" class="btn">View on GitHub</a>
-                </div>
+    <div id="home-page">
+        <header>
+            <div class="profile-wrapper">
+                <img src="anh.jpg" alt="Vũ Phạm Luân" class="profile-img">
             </div>
-
-            <div class="card">
-                <div class="card-img">
-                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=3D+Models" alt="SMD-System">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">SMD-System</h3>
-                    <p class="card-desc">
-                        Hệ thống Syllabus với tính năng AI thông minh.
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Reactjs</span>
-                        <span class="tag">Java</span>
-                        <span class="tag">MySQL</span>
-                    </div>
-                    <a href="https://github.com/luanvu2003/core-system" class="btn">View on Github</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">
-                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=Interactive+Web" alt="Dự án 2D">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Dự án Two Worlds</h3>
-                    <p class="card-desc">
-                       
-                    </p>
-                    <div class="tags">
-                        <span class="tag">C#</span>
-                        <span class="tag">Unity 2D</span>
-                        <span class="tag">UI Design</span>
-                    </div>
-                    <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn">View on Github</a>
-                </div>
-            </div>
-
-             <div class="card">
-                <div class="card-img">
-                    <img src="https://via.placeholder.com/500x300/21262d/8b949e?text=Backend+API" alt="Dự án 3D">
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Dự án 3D</h3>
-                    <p class="card-desc">
-                        
-                    </p>
-                    <div class="tags">
-                        <span class="tag">Unity 3D</span>
-                        <span class="tag">C#</span>
-                        <span class="tag">UI Design</span>
-                    </div>
-                    <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn">View on Github</a>
-                </div>
-            </div>
-
-        </div>
-
-        <br><br>
-
-        <h2 class="section-title">🛠️ Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-box">
-                <h3><i class="fas fa-gamepad"></i> Game Development</h3>
-                <ul class="skill-list">
-                    <li><i class="fas fa-check"></i> Unity Engine (C#)</li>
-                    <li><i class="fas fa-check"></i> 3D Modeling (Maya)</li>
-                    <li><i class="fas fa-check"></i> Animation & Rigging</li>
-                    <li><i class="fas fa-check"></i> Game Logic & AI</li>
-                </ul>
+            <h1>Vũ Phạm Luân</h1>
+            <div class="tagline-wrapper">
+                <p class="tagline"> Game Developer & Backend Engineer </p>
             </div>
             
-            <div class="skill-box">
-                <h3><i class="fas fa-server"></i> Backend & Web</h3>
-                <ul class="skill-list">
-                    <li><i class="fas fa-check"></i> C# / .NET Framework</li>
-                    <li><i class="fas fa-check"></i> SQL Server / Database Design</li>
-                    <li><i class="fas fa-check"></i> Entity Framework Core</li>
-                    <li><i class="fas fa-check"></i> HTML/CSS/JS/ReactJS (Frontend)</li>
-                </ul>
+            <div class="social-links">
+                <a href="https://github.com/luanvu2003"><i class="fab fa-github"></i></a>
+                <a href="mailto:luanvutk123@gmail.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.facebook.com/vuphamluan2604"><i class="fab fa-facebook"></i></a>
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <h2 class="section-title"><i class="fas fa-meteor"></i> Featured Projects</h2>
+            <div class="project-grid">
+                
+                <div class="card">
+                    <div class="card-img">
+                        <img src="wanderedknight.jpg" alt="Wandered Knight" onerror="this.src='https://via.placeholder.com/500x300/101015/58a6ff?text=Wandered+Knight'">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Wandered Knight</h3>
+                        <p class="card-desc">Game 2D Action-Platformer. Hành trình của hiệp sĩ vô danh tìm lại ký ức trong thế giới tàn khốc.</p>
+                        <div class="tags">
+                            <span class="tag">Unity 2D</span>
+                            <span class="tag">C#</span>
+                            <span class="tag">Combat System</span>
+                        </div>
+                        <button class="btn btn-detail" onclick="openDetail('wandered-knight')">
+                            Xem Chi Tiết
+                        </button>
+                        <a href="https://github.com/luanvu2003/DuAn1" class="btn btn-github">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=SMD-System" alt="SMD-System">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">SMD-System</h3>
+                        <p class="card-desc">Hệ thống quản lý Syllabus (Đề cương) tích hợp AI để tối ưu hóa chương trình đào tạo.</p>
+                        <div class="tags">
+                            <span class="tag">ReactJS</span>
+                            <span class="tag">Spring Boot</span>
+                            <span class="tag">MySQL</span>
+                        </div>
+                        <button class="btn btn-detail" onclick="openDetail('smd-system')">
+                            Xem Chi Tiết
+                        </button>
+                        <a href="https://github.com/luanvu2003/core-system" class="btn btn-github">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=Two+Worlds" alt="Two Worlds">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Two Worlds</h3>
+                        <p class="card-desc">Puzzle Game độc đáo với cơ chế chuyển đổi không gian song song để giải đố.</p>
+                        <div class="tags">
+                            <span class="tag">Unity 2D</span>
+                            <span class="tag">Puzzle Logic</span>
+                            <span class="tag">Pixel Art</span>
+                        </div>
+                        <button class="btn btn-detail" onclick="openDetail('two-worlds')">
+                            Xem Chi Tiết
+                        </button>
+                        <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn btn-github">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-img">
+                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=3D+World" alt="3D Project">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Project 3D Advanced</h3>
+                        <p class="card-desc">Game 3D thế giới mở tập trung vào tối ưu hiệu suất và vật lý chân thực.</p>
+                        <div class="tags">
+                            <span class="tag">Unity 3D</span>
+                            <span class="tag">Optimization</span>
+                            <span class="tag">Physics</span>
+                        </div>
+                        <button class="btn btn-detail" onclick="openDetail('3d-project')">
+                            Xem Chi Tiết
+                        </button>
+                        <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn btn-github">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+
             </div>
 
-            <div class="skill-box">
-                <h3><i class="fas fa-tools"></i> Tools & Others</h3>
-                <ul class="skill-list">
-                    <li><i class="fas fa-check"></i> Git / GitHub</li>
-                    <li><i class="fas fa-check"></i> Visual Studio / VS Code</li>
-                    <li><i class="fas fa-check"></i> Photoshop / UI Design</li>
-                </ul>
+            <h2 class="section-title"><i class="fas fa-code"></i> Technical Arsenal</h2>
+            <div class="skills-container">
+                <div class="skill-box">
+                    <h3><i class="fas fa-gamepad"></i> Game Dev</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-caret-right"></i> Unity Engine</li>
+                        <li><i class="fas fa-caret-right"></i> C# Scripting & OOP</li>
+                        <li><i class="fas fa-caret-right"></i> Animation & Rigging</li>
+                        <li><i class="fas fa-caret-right"></i> Shader Graph / VFX</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-box">
+                    <h3><i class="fas fa-server"></i> Backend</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-caret-right"></i> ASP.NET Core API</li>
+                        <li><i class="fas fa-caret-right"></i> SQL Server / MongoDB</li>
+                        <li><i class="fas fa-caret-right"></i> Docker</li>
+                    </ul>
+                </div>
+
+                <div class="skill-box">
+                    <h3><i class="fas fa-tools"></i> Tools</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-caret-right"></i> Git / GitHub Flow</li>
+                        <li><i class="fas fa-caret-right"></i> Postman / Swagger</li>
+                        <li><i class="fas fa-caret-right"></i> Adobe Photoshop</li>
+                        <li><i class="fas fa-caret-right"></i> Figma (UI/UX)</li>
+                    </ul>
+                </div>
             </div>
+
         </div>
 
+        <footer>
+            <p>DESIGNED BY <span style="color: var(--accent-cyan)">VŨ PHẠM LUÂN</span> | © 2026</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>Designed by Vũ Phạm Luân | © 2026</p>
-    </footer>
+    <div id="detail-page">
+        <div class="container" style="padding-top: 1rem;">
+            <button class="back-btn" onclick="closeDetail()">
+                <i class="fas fa-arrow-left"></i> QUAY LẠI
+            </button>
+            
+            <div id="detail-content-placeholder"></div>
+        </div>
+    </div>
 
+    <script>
+        // --- MAIN SCROLL TO TOP LOGIC ---
+        let mainScrollBtn = document.getElementById("scrollTopBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                mainScrollBtn.style.display = "block";
+            } else {
+                mainScrollBtn.style.display = "none";
+            }
+        };
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        // --- DETAIL PAGE SCROLL TO TOP LOGIC ---
+        let detailPage = document.getElementById("detail-page");
+        let detailScrollBtn = document.getElementById("detailScrollBtn");
+
+        // Lắng nghe sự kiện scroll trên thẻ div #detail-page
+        detailPage.onscroll = function() {
+            if (detailPage.scrollTop > 200) {
+                detailScrollBtn.style.display = "block";
+            } else {
+                detailScrollBtn.style.display = "none";
+            }
+        };
+
+        function topDetailFunction() {
+            // Cuộn mượt mà lên đầu div #detail-page
+            detailPage.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // --- DATA ---
+        const projectData = {
+            'wandered-knight': {
+                title: 'WANDERE KNIGHT',
+                img: 'wanderedknight.jpg',
+                description: `
+                    <h3>Cốt truyện & Gameplay</h3>
+                    <p>Trong vai một hiệp sĩ mất trí nhớ, người chơi phải chiến đấu qua 5 vùng đất khác nhau, từ Rừng Thiêng đến Ngục Tối để tìm lại bản ngã. Game sử dụng hệ thống State Machine để quản lý trạng thái nhân vật mượt mà.</p>
+                    <h3>Công nghệ nổi bật</h3>
+                    <ul>
+                        <li>Hệ thống AI kẻ địch sử dụng A* Pathfinding.</li>
+                        <li>Quản lý dữ liệu bằng ScriptableObjects.</li>
+                        <li>Hiệu ứng Particle System hoành tráng.</li>
+                    </ul>
+                `
+            },
+            'smd-system': {
+                title: 'SMD SYSTEM',
+                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=SMD+Dashboard',
+                description: `
+                    <h3>Giải pháp Giáo dục</h3>
+                    <p>Hệ thống giúp số hóa toàn bộ quy trình soạn thảo đề cương môn học tại Đại học FPT. Giảm thiểu 80% sai sót thủ công nhờ bộ kiểm tra quy tắc tự động (Validation Rules).</p>
+                    <h3>Kiến trúc hệ thống</h3>
+                    <ul>
+                        <li>Frontend: ReactJS với Redux Toolkit.</li>
+                        <li>Backend: Java Spring Boot (Microservices).</li>
+                        <li>Database: MySQL & Redis Caching.</li>
+                    </ul>
+                `
+            },
+            'two-worlds': {
+                title: 'TWO WORLDS',
+                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=Two+Worlds+Gameplay',
+                description: `
+                    <h3>Cơ chế độc đáo</h3>
+                    <p>Nhân vật chính có khả năng tách linh hồn khỏi thể xác. Thế giới thực chứa vật cản vật lý, thế giới linh hồn chứa manh mối ẩn. Người chơi phải phối hợp cả hai để mở khóa cửa thoát hiểm.</p>
+                    <h3>Thách thức kỹ thuật</h3>
+                    <ul>
+                        <li>Xử lý 2 scene chạy song song và đồng bộ vị trí.</li>
+                        <li>Tối ưu hóa Pixel Art Assets.</li>
+                    </ul>
+                `
+            },
+            '3d-project': {
+                title: '3D ADVANCED PROJECT',
+                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=3D+Open+World',
+                description: `
+                    <h3>Thế giới mở</h3>
+                    <p>Dự án thể nghiệm các kỹ thuật đồ họa cao cấp trong Unity. Bao gồm chu kỳ ngày đêm, hệ thống thời tiết thời gian thực và tương tác vật lý phức tạp.</p>
+                `
+            }
+        };
+
+        // --- SPA LOGIC ---
+        function openDetail(projectId) {
+            const data = projectData[projectId];
+            if (!data) return;
+
+            const contentDiv = document.getElementById('detail-content-placeholder');
+            contentDiv.innerHTML = `
+                <h1 class="detail-title">${data.title}</h1>
+                <img src="${data.img}" alt="${data.title}" class="detail-img" onerror="this.src='https://via.placeholder.com/800x400/101015/58a6ff?text=No+Image'">
+                <div class="detail-content">
+                    ${data.description}
+                </div>
+            `;
+
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('detail-page').classList.add('active');
+            
+            // Ẩn nút scroll main, reset nút scroll detail
+            mainScrollBtn.style.display = "none";
+            detailScrollBtn.style.display = "none";
+            
+            // Scroll trang detail lên đầu
+            document.getElementById('detail-page').scrollTop = 0;
+        }
+
+        function closeDetail() {
+            document.getElementById('detail-page').classList.remove('active');
+            document.getElementById('home-page').style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            // Reset nút scroll detail
+            detailScrollBtn.style.display = "none";
+        }
+    </script>
 </body>
 </html>
