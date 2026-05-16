@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vũ Phạm Luân | Game & Backend Developer</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;900&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
         :root {
             --bg-dark: #050505;
@@ -26,199 +29,665 @@
         }
 
         /* --- RESET & GLOBAL --- */
-        html { width: 100%; overflow-x: hidden; box-sizing: border-box; }
-        *, *::before, *::after { box-sizing: inherit; }
-        
+        html {
+            width: 100%;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
         body {
-            margin: 0; padding: 0; width: 100%; overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
             font-family: var(--font-main);
             background-color: var(--bg-dark);
             background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px; animation: bgScroll 25s linear infinite;
-            color: var(--text-main); line-height: 1.6; min-height: 100vh; position: relative;
+            background-size: 40px 40px;
+            animation: bgScroll 25s linear infinite;
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
         }
 
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: rgba(0, 243, 255, 0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-cyan); }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
 
-        @keyframes bgScroll { 0% { background-position: 0 0; } 100% { background-position: 40px 40px; } }
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan);
+        }
+
+        @keyframes bgScroll {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 40px 40px;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
         @keyframes glitch {
-            0% { text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan); }
-            50% { text-shadow: 2px -2px 0px var(--accent-purple), -2px 2px 0px var(--accent-cyan); }
-            100% { text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan); }
+            0% {
+                text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan);
+            }
+
+            50% {
+                text-shadow: 2px -2px 0px var(--accent-purple), -2px 2px 0px var(--accent-cyan);
+            }
+
+            100% {
+                text-shadow: 2px 2px 0px var(--accent-purple), -2px -2px 0px var(--accent-cyan);
+            }
         }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         .scroll-btn {
-            display: none; position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            border: none; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--accent-cyan);
-            color: var(--accent-cyan); width: 45px; height: 45px; border-radius: 50%;
-            cursor: pointer; font-size: 1.2rem; backdrop-filter: blur(5px); transition: all 0.3s;
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            border: none;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
         }
-        .scroll-btn:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 20px var(--accent-cyan); }
+
+        .scroll-btn:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
 
         /* --- HEADER --- */
         header {
-            width: 100%; text-align: center; padding: 6rem 1rem 4rem; position: relative; overflow: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 100%;
+            text-align: center;
+            padding: 6rem 1rem 4rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
+
         header::before {
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 60vw; height: 60vw; max-width: 500px; max-height: 500px; 
-            background: radial-gradient(circle, rgba(0,243,255,0.12) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1; pointer-events: none;
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vw;
+            max-width: 500px;
+            max-height: 500px;
+            background: radial-gradient(circle, rgba(0, 243, 255, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
         }
-        .profile-wrapper { position: relative; display: block; margin-bottom: 1.5rem; animation: float 6s ease-in-out infinite; }
+
+        .profile-wrapper {
+            position: relative;
+            display: block;
+            margin-bottom: 1.5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
         .profile-img {
-            width: 160px; height: 160px; border-radius: 50%; object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 0 0 4px rgba(0, 243, 255, 0.1), 0 0 30px rgba(0, 243, 255, 0.2);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 4px rgba(0, 243, 255, 0.1), 0 0 30px rgba(0, 243, 255, 0.2);
         }
+
         h1 {
-            font-family: var(--font-main); font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem; text-transform: uppercase;
-            background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            position: relative; display: inline-block; line-height: 1.2; max-width: 100%;
+            font-family: var(--font-main);
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            display: inline-block;
+            line-height: 1.2;
+            max-width: 100%;
         }
-        h1:hover { animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite; -webkit-text-fill-color: var(--accent-cyan); }
-        .tagline-wrapper { display: inline-block; margin-bottom: 2rem; max-width: 100%; padding: 0 10px; overflow: hidden; }
+
+        h1:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            -webkit-text-fill-color: var(--accent-cyan);
+        }
+
+        .tagline-wrapper {
+            display: inline-block;
+            margin-bottom: 2rem;
+            max-width: 100%;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+
         .tagline {
-            font-family: var(--font-code); font-size: 1.1rem; color: var(--accent-cyan); white-space: nowrap; overflow: hidden;
-            border-right: 2px solid var(--accent-purple); animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite; max-width: 100%;
+            font-family: var(--font-code);
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid var(--accent-purple);
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            max-width: 100%;
         }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-purple); } }
-        .social-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .social-links a { color: var(--text-muted); font-size: 1.8rem; transition: all 0.3s; }
-        .social-links a:hover { color: var(--accent-cyan); transform: translateY(-5px); text-shadow: 0 0 15px var(--accent-cyan); }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent
+            }
+
+            50% {
+                border-color: var(--accent-purple);
+            }
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            font-size: 1.8rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-5px);
+            text-shadow: 0 0 15px var(--accent-cyan);
+        }
 
         /* --- CONTAINER --- */
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        .section-title {
-            font-weight: 800; font-size: 2rem; color: #fff; margin: 5rem 0 2.5rem;
-            display: flex; align-items: center; gap: 15px; position: relative; padding-left: 15px; text-transform: uppercase;
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        .section-title::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--text-gradient); border-radius: 4px; box-shadow: 0 0 10px var(--accent-cyan); }
-        .section-title i { background: var(--text-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .section-title {
+            font-weight: 800;
+            font-size: 2rem;
+            color: #fff;
+            margin: 5rem 0 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: var(--text-gradient);
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .section-title i {
+            background: var(--text-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         /* --- CARDS & GRID --- */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; width: 100%; }
-        .card {
-            background: var(--bg-panel); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; overflow: hidden;
-            backdrop-filter: blur(10px); transition: all 0.3s ease; display: flex; flex-direction: column; width: 100%;
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--accent-cyan); box-shadow: 0 8px 30px rgba(0, 243, 255, 0.1); }
-        .card-img { height: 200px; overflow: hidden; width: 100%; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .card:hover .card-img img { transform: scale(1.1); }
-        .card-body { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
-        .card-title { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; text-transform: uppercase; }
-        .card-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.2rem; flex-grow: 1; }
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2rem; }
-        .tag {
-            background: rgba(0, 243, 255, 0.05); color: var(--accent-cyan); padding: 4px 10px; border-radius: 4px;
-            font-size: 0.75rem; font-family: var(--font-code); border: 1px solid rgba(0, 243, 255, 0.15);
-        }
-        .btn {
-            width: 100%; box-sizing: border-box; padding: 12px 15px; margin-top: 10px; font-family: var(--font-main);
-            font-weight: 700; text-transform: uppercase; font-size: 0.85rem; line-height: 1; display: flex;
-            justify-content: center; align-items: center; gap: 8px; text-decoration: none; border-radius: 6px;
-            cursor: pointer; transition: 0.3s; outline: none; -webkit-appearance: none;
-        }
-        .btn-detail { background: transparent; border: 2px solid var(--accent-cyan); color: var(--accent-cyan); }
-        .btn-detail:hover { background: var(--accent-cyan); color: #000; box-shadow: 0 0 15px var(--accent-cyan); }
-        .btn-github { background: rgba(255, 255, 255, 0.05); border: 2px solid transparent; color: var(--text-muted); }
-        .btn-github:hover { background: #fff; color: #000; border-color: #fff; }
 
-        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; width: 100%; }
-        .skill-box {
-            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; transition: 0.3s; width: 100%;
+        .card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
-        .skill-box:hover { border-color: var(--accent-purple); box-shadow: 0 0 20px rgba(188, 19, 254, 0.1); }
-        .skill-box h3 { font-weight: 700; color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
-        .skill-list li { list-style: none; margin-bottom: 0.6rem; display: flex; align-items: center; color: var(--text-muted); font-family: var(--font-code); font-size: 0.85rem; }
-        .skill-list i { color: var(--accent-cyan); margin-right: 10px; }
-        footer { text-align: center; padding: 4rem 1rem; margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: #666; width: 100%; }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 30px rgba(0, 243, 255, 0.1);
+        }
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.1);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 1.2rem;
+        }
+
+        .tag {
+            background: rgba(0, 243, 255, 0.05);
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: var(--font-code);
+            border: 1px solid rgba(0, 243, 255, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 15px;
+            margin-top: 10px;
+            font-family: var(--font-main);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            line-height: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .btn-detail {
+            background: transparent;
+            border: 2px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .btn-detail:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+
+        .btn-github {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-github:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .skill-box {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .skill-box:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.1);
+        }
+
+        .skill-box h3 {
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .skill-list li {
+            list-style: none;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+        }
+
+        .skill-list i {
+            color: var(--accent-cyan);
+            margin-right: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+            color: #666;
+            width: 100%;
+        }
 
         /* --- DETAIL PAGE (MOBILE DEFAULT) --- */
         #detail-page {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(5, 5, 5, 0.98); z-index: 1000; overflow-y: auto; 
-            padding: 1.5rem 1rem; /* Padding nhỏ cho mobile */
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 1.5rem 1rem;
+            /* Padding nhỏ cho mobile */
         }
-        #detail-page.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .detail-title { font-size: 1.8rem; font-weight: 900; color: var(--accent-cyan); margin-bottom: 1rem; line-height: 1.2; word-wrap: break-word; }
-        .detail-img { width: 100%; max-height: 300px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-glow); margin-bottom: 1.5rem; }
-        .back-btn { background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 1.5rem; }
-        .back-btn:hover { color: var(--accent-cyan); }
-        .detail-content { color: var(--text-main); font-size: 1rem; line-height: 1.7; }
-        .detail-content h3 { color: var(--accent-purple); margin-top: 2rem; margin-bottom: 0.8rem; }
+
+        #detail-page.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .detail-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
+
+        .detail-img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--border-glow);
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-cyan);
+        }
+
+        .detail-content {
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .detail-content h3 {
+            color: var(--accent-purple);
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+        }
 
         /* =========================================
            RESPONSIVE & PC FIXES
            ========================================= */
-        
+
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            header { padding: 3rem 1rem 2rem; width: 100%; box-sizing: border-box; }
-            .profile-img { width: 130px; height: 130px; }
-            h1 { font-size: 1.8rem; padding: 0 10px; }
-            .tagline { white-space: normal; animation: none; border: none; text-align: center; font-size: 0.9rem; }
-            .container { padding: 0 1.2rem; }
-            .project-grid, .skills-container { grid-template-columns: 100%; gap: 1.5rem; }
-            .scroll-btn { width: 40px; height: 40px; right: 15px; bottom: 15px; }
+            header {
+                padding: 3rem 1rem 2rem;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .profile-img {
+                width: 130px;
+                height: 130px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                padding: 0 10px;
+            }
+
+            .tagline {
+                white-space: normal;
+                animation: none;
+                border: none;
+                text-align: center;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 1.2rem;
+            }
+
+            .project-grid,
+            .skills-container {
+                grid-template-columns: 100%;
+                gap: 1.5rem;
+            }
+
+            .scroll-btn {
+                width: 40px;
+                height: 40px;
+                right: 15px;
+                bottom: 15px;
+            }
         }
 
         /* LANDSCAPE MOBILE */
         @media (max-height: 600px) and (orientation: landscape) {
-            header { padding: 1.5rem 1rem; }
-            .profile-img { width: 90px; height: 90px; }
-            h1 { font-size: 1.5rem; margin-bottom: 0; }
-            .project-grid { grid-template-columns: repeat(2, 1fr); }
+            header {
+                padding: 1.5rem 1rem;
+            }
+
+            .profile-img {
+                width: 90px;
+                height: 90px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0;
+            }
+
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         /* --- PC SPECIFIC FIX FOR DETAIL MODAL (FIX LỖI HẸP) --- */
         @media (min-width: 1024px) {
             #detail-page {
-                padding: 0; /* Xóa padding bao quanh của modal trên PC để container tự xử lý */
+                padding: 0;
+                /* Xóa padding bao quanh của modal trên PC để container tự xử lý */
             }
-            
+
             #detail-page .container {
-                max-width: 1000px; /* Độ rộng tối ưu cho PC (không quá rộng để đọc, nhưng đủ to) */
-                margin: 4rem auto; /* Căn giữa và cách top */
+                max-width: 1000px;
+                /* Độ rộng tối ưu cho PC (không quá rộng để đọc, nhưng đủ to) */
+                margin: 4rem auto;
+                /* Căn giữa và cách top */
                 padding: 0;
             }
 
             .detail-title {
-                font-size: 3rem; /* Tiêu đề to hơn trên PC */
+                font-size: 3rem;
+                /* Tiêu đề to hơn trên PC */
                 text-align: center;
                 margin-bottom: 2rem;
             }
 
             .detail-img {
-                height: 500px; /* Ảnh cao, to rõ trên màn hình lớn */
-                max-height: none; /* Bỏ giới hạn chiều cao của mobile */
+                height: 500px;
+                /* Ảnh cao, to rõ trên màn hình lớn */
+                max-height: none;
+                /* Bỏ giới hạn chiều cao của mobile */
                 margin-bottom: 3rem;
             }
 
             .detail-content {
-                font-size: 1.15rem; /* Chữ to hơn chút cho dễ đọc */
-                padding: 0 4rem; /* Padding nội dung văn bản để không sát mép ảnh */
+                font-size: 1.15rem;
+                /* Chữ to hơn chút cho dễ đọc */
+                padding: 0 4rem;
+                /* Padding nội dung văn bản để không sát mép ảnh */
             }
-            
+
             .back-btn {
                 font-size: 1.2rem;
-                margin-left: 2rem; /* Căn nút back thẳng hàng với nội dung */
+                margin-left: 2rem;
+                /* Căn nút back thẳng hàng với nội dung */
                 margin-top: 2rem;
             }
         }
     </style>
 </head>
+
 <body>
 
     <button onclick="topFunction()" id="scrollTopBtn" class="scroll-btn" title="Lên đầu trang">
@@ -237,7 +706,7 @@
             <div class="tagline-wrapper">
                 <p class="tagline"> Game Developer & Backend Engineer </p>
             </div>
-            
+
             <div class="social-links">
                 <a href="https://github.com/luanvu2003"><i class="fab fa-github"></i></a>
                 <a href="mailto:luanvutk123@gmail.com"><i class="fas fa-envelope"></i></a>
@@ -250,41 +719,46 @@
             <div class="project-grid">
                 <div class="card reveal">
                     <div class="card-img">
-                        <img src="wanderedknight.jpg" alt="Wandered Knight" onerror="this.src='https://via.placeholder.com/500x300/101015/58a6ff?text=Wandered+Knight'">
+                        <img src="wanderedknight.jpg" alt="Wandered Knight"
+                            onerror="this.src='https://via.placeholder.com/500x300/101015/58a6ff?text=Wandered+Knight'">
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Wandered Knight</h3>
-                        <p class="card-desc">Game 2D Action-Platformer. Hành trình của hiệp sĩ vô danh tìm lại ký ức.</p>
+                        <p class="card-desc">Game 2D Action-Platformer. Hành trình của hiệp sĩ vô danh tìm lại ký ức.
+                        </p>
                         <div class="tags">
                             <span class="tag">Unity 2D</span>
                             <span class="tag">C#</span>
                             <span class="tag">Combat System</span>
                         </div>
                         <button class="btn btn-detail" onclick="openDetail('wandered-knight')">Xem Chi Tiết</button>
-                        <a href="https://github.com/luanvu2003/DuAn1" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/luanvu2003/DuAn1" class="btn btn-github"><i
+                                class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
 
                 <div class="card reveal">
                     <div class="card-img">
-                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=SMD-System" alt="SMD-System">
+                        <img src="midnighthunt.png" alt="MidNight Hunt"
+                            onerror="this.src='https://via.placeholder.com/500x300/101015/58a6ff?text=MidNight+Hunt'">
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">SMD-System</h3>
-                        <p class="card-desc">Hệ thống quản lý Syllabus (Đề cương) tích hợp AI tối ưu hóa đào tạo.</p>
+                        <h3 class="card-title">MidNight Hunt</h3>
+                        <p class="card-desc">Game kinh dị, online kịch tính. 4 người chơi, 1 người làm hunter, và 3
+                            người còn lại trốn chạy, sửa máy để trốn thoát.</p>
                         <div class="tags">
-                            <span class="tag">ReactJS</span>
-                            <span class="tag">Spring Boot</span>
-                            <span class="tag">MySQL</span>
+                            <span class="tag">Unity 3D</span>
+                            <span class="tag">Online</span>
                         </div>
-                        <button class="btn btn-detail" onclick="openDetail('smd-system')">Xem Chi Tiết</button>
-                        <a href="https://github.com/luanvu2003/core-system" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
+                        <button class="btn btn-detail" onclick="openDetail('midnight-hunt')">Xem Chi Tiết</button>
+                        <a href="https://github.com/luanvu2003/MidNightHunt" class="btn btn-github"><i
+                                class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
 
                 <div class="card reveal">
                     <div class="card-img">
-                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=Two+Worlds" alt="Two Worlds">
+                        <img src="twoworlds.png" alt="Two Worlds">
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">Two Worlds</h3>
@@ -295,24 +769,8 @@
                             <span class="tag">Pixel Art</span>
                         </div>
                         <button class="btn btn-detail" onclick="openDetail('two-worlds')">Xem Chi Tiết</button>
-                        <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
-                    </div>
-                </div>
-
-                 <div class="card reveal">
-                    <div class="card-img">
-                        <img src="https://via.placeholder.com/500x300/101015/58a6ff?text=3D+World" alt="3D Project">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="card-title">Project 3D Advanced</h3>
-                        <p class="card-desc">Game 3D thế giới mở tập trung vào tối ưu hiệu suất và vật lý chân thực.</p>
-                        <div class="tags">
-                            <span class="tag">Unity 3D</span>
-                            <span class="tag">Optimization</span>
-                            <span class="tag">Physics</span>
-                        </div>
-                        <button class="btn btn-detail" onclick="openDetail('3d-project')">Xem Chi Tiết</button>
-                        <a href="https://github.com/luanvu2003/DuAn3dNangCao" class="btn btn-github"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/luanvu2003/DuAn2DPDP" class="btn btn-github"><i
+                                class="fab fa-github"></i> GitHub</a>
                     </div>
                 </div>
             </div>
@@ -328,7 +786,7 @@
                         <li><i class="fas fa-caret-right"></i> Shader Graph / VFX</li>
                     </ul>
                 </div>
-                
+
                 <div class="skill-box">
                     <h3><i class="fas fa-server"></i> Backend</h3>
                     <ul class="skill-list">
@@ -380,16 +838,16 @@
         reveal();
 
         let mainScrollBtn = document.getElementById("scrollTopBtn");
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 200) { mainScrollBtn.style.display = "block"; } 
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 200) { mainScrollBtn.style.display = "block"; }
             else { mainScrollBtn.style.display = "none"; }
         });
         function topFunction() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
         let detailPage = document.getElementById("detail-page");
         let detailScrollBtn = document.getElementById("detailScrollBtn");
-        detailPage.onscroll = function() {
-            if (detailPage.scrollTop > 200) { detailScrollBtn.style.display = "block"; } 
+        detailPage.onscroll = function () {
+            if (detailPage.scrollTop > 200) { detailScrollBtn.style.display = "block"; }
             else { detailScrollBtn.style.display = "none"; }
         };
         function topDetailFunction() { detailPage.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -400,20 +858,15 @@
                 img: 'wanderedknight.jpg',
                 description: `<h3>Cốt truyện & Gameplay</h3><p>Trong vai một hiệp sĩ mất trí nhớ, người chơi phải chiến đấu qua 5 vùng đất khác nhau. Game sử dụng hệ thống State Machine để quản lý trạng thái nhân vật mượt mà.</p><h3>Công nghệ nổi bật</h3><ul><li>Hệ thống AI kẻ địch sử dụng A* Pathfinding.</li><li>Quản lý dữ liệu bằng ScriptableObjects.</li><li>Hiệu ứng Particle System hoành tráng.</li></ul>`
             },
-            'smd-system': {
-                title: 'SMD SYSTEM',
-                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=SMD+Dashboard',
-                description: `<h3>Giải pháp Giáo dục</h3><p>Hệ thống giúp số hóa toàn bộ quy trình soạn thảo đề cương môn học tại Đại học FPT. Giảm thiểu 80% sai sót thủ công nhờ bộ kiểm tra quy tắc tự động.</p><h3>Kiến trúc hệ thống</h3><ul><li>Frontend: ReactJS với Redux Toolkit.</li><li>Backend: Java Spring Boot (Microservices).</li><li>Database: MySQL & Redis Caching.</li></ul>`
+            'midnight-hunt': {
+                title: 'MIDNIGHT HUNT',
+                img: 'midnighthunt.png',
+                description: `<h3>Sinh tồn trong đêm tối</h3><p>Người chơi phải sử dụng các công cụ giới hạn để sống sót qua đêm trong khu rừng đầy rẫy những thực thể bí ẩn. Game tập trung vào không khí căng thẳng và âm thanh môi trường.</p><h3>Kỹ thuật HDRP</h3><ul><li>Sử dụng High Definition Render Pipeline để đạt chất lượng đồ họa AAA.</li><li>Hệ thống ánh sáng động và volumetric fog.</li><li>AI kẻ địch dựa trên thính giác và tầm nhìn.</li></ul>`
             },
             'two-worlds': {
                 title: 'TWO WORLDS',
-                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=Two+Worlds+Gameplay',
+                img: 'twoworlds.png',
                 description: `<h3>Cơ chế độc đáo</h3><p>Nhân vật chính có khả năng tách linh hồn khỏi thể xác. Thế giới thực chứa vật cản vật lý, thế giới linh hồn chứa manh mối ẩn.</p><h3>Thách thức kỹ thuật</h3><ul><li>Xử lý 2 scene chạy song song và đồng bộ vị trí.</li><li>Tối ưu hóa Pixel Art Assets.</li></ul>`
-            },
-            '3d-project': {
-                title: '3D ADVANCED PROJECT',
-                img: 'https://via.placeholder.com/800x400/101015/58a6ff?text=3D+Open+World',
-                description: `<h3>Thế giới mở</h3><p>Dự án thể nghiệm các kỹ thuật đồ họa cao cấp trong Unity. Bao gồm chu kỳ ngày đêm, hệ thống thời tiết thời gian thực và tương tác vật lý phức tạp.</p>`
             }
         };
 
@@ -436,4 +889,5 @@
         }
     </script>
 </body>
+
 </html>
